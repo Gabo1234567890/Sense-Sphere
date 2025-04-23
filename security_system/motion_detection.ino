@@ -2,8 +2,8 @@
 #include <PubSubClient.h>
 #include "esp_camera.h"
 
-const char* ssid = "Nenovi_Tenda";
-const char* password = "bobi6445bobi6445";
+const char* ssid = "wifi_name";
+const char* password = "wifi_password";
 
 // const char* mqtt_server = "your_rpi_ip";
 // const char* topic = "security/camera1/detection";
@@ -67,7 +67,7 @@ void setup_camera() {
 }
 
 // void send_mqtt_alert() {
-//   client.publish(topic, "Person Detected");
+//   client.publish(topic, "Motion Detected");
 // }
 
 void setup() {
@@ -96,6 +96,7 @@ void loop() {
     Serial.println(diff_sum);
     if (diff_sum > 500000 && millis() - last_detection > cooldown_ms) {
       Serial.println("Motion detected");
+      // send_mqtt_alert();
       last_detection = millis();
     }
   }
@@ -105,5 +106,6 @@ void loop() {
   memcpy(prev_frame, fb->buf, fb->len);
 
   esp_camera_fb_return(fb);
+  // client.loop();
   delay(1000);
 }
